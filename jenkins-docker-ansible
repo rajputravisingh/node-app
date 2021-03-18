@@ -45,6 +45,7 @@ pipeline{
                               sh "root@10.128.0.13 kubectl create -f ."
                             }
                   }
+                  }
                 }
             }
         }
