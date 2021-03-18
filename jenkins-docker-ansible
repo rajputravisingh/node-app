@@ -25,7 +25,7 @@ pipeline{
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'password')]) {
                 sh 'docker login -u rajputmarch2020 -p ${password} '
                 }
-                sh 'docker push rajputmarch2020/sample-app:${DOCKER_TAG}'
+                sh 'docker push rajputmarch2020/nodeapp:${DOCKER_TAG}'
             }
         }
         }
