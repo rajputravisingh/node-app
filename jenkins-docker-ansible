@@ -28,6 +28,25 @@ pipeline{
                 sh 'docker push rajputmarch2020/nodeapp:${DOCKER_TAG}'
             }
         }
+        
+        stage('Kubernetes-Deployment')
+            {
+                steps
+                {
+                    sh " chmod +x changeTag.sh "
+                    sh " ./changeTag.sh ${DOCKER_TAG}"
+                    sshagent(['k8s-master']) {
+                      sh " scp -o StrictHostKeyChecking=no services.yml node-app-pod.yml root@10.128.0.13:/root"
+                      script{
+                         try{
+                            sh "ssh root@10.128.0.13 kubectl apply -f . "
+                            }
+                            catch(error){
+                              sh "root@10.128.0.13 kubectl create -f ."
+                            }
+                  }
+                }
+            }
         }
     }
 
